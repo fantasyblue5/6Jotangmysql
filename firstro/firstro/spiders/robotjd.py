@@ -14,6 +14,7 @@ class RobotjdSpider(scrapy.Spider):
     url_head ='https://club.jd.com/comment/productPageComments.action?callback=fetchJSON_comment98&productId=100019125569&score=0&sortType=5'
     url_middle ='&page='
     url_end ='&pageSize=10&isShadowSku=0&fold=1'
+
     headers = {
         'accept': '*/*',
         'accept-encoding': 'gzip, deflate, br',
@@ -32,8 +33,8 @@ class RobotjdSpider(scrapy.Spider):
 
     # 请求访问
     def start_requests(self):
-        # logger.info()
-        for i in range(0,70):
+
+        for i in range(0,50):
             logger.info("当前爬取到第{}页".format(i))
             url = self.url_head + self.url_middle + str(i) + self.url_end
             yield scrapy.Request(url=url, callback=self.parse)
@@ -48,7 +49,6 @@ class RobotjdSpider(scrapy.Spider):
         data = json.loads(json_str[20:-2])
 
 
-        # 封装数据
         comment_list = data['comments']
         for com in comment_list:
                 self.comments += 1

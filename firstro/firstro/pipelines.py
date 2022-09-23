@@ -5,12 +5,11 @@
 
 
 # useful for handling different item types with a single interface
-from itemadapter import ItemAdapter
-from loguru import logger
+import pymysql
 
 
 class FirstroPipeline(object):
-    fp = None
+
     def open_spider(self,spider):
         print('开始爬虫……')
 
@@ -21,16 +20,29 @@ class FirstroPipeline(object):
         content = item['content']
         times = item['times']
 
-        logger.info(item)
+        # 创建数据库链接
+        connector = pymysql.connect(
+            host="localhost",
+            user="root",
+            password="040515Lzn",
+            database="JDcomments",
+            port=3306,
+            charset='utf8'
+        )
 
-        with open('JDcomments.txt','a', encoding='utf-8') as f:
-            f.write(user)
-            f.write('\n')
-            f.write(content)
-            f.write('\n')
-            f.write(times)
-            f.write('\n')
+        if connector:
+            print("success")
 
+        cursor = connector.cursor()
+        cursor.execute('USE JDcomments')
+
+        cursor.execute(
+            'INSERT INTO jdcoms VALUES (%s,%s,%s)',
+            (user, content, times)
+        )
+
+        # 执行操作
+        connector.commit()
         return item
 
     def close_spider(self,spider):
