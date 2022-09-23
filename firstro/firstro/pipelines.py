@@ -30,8 +30,7 @@ class FirstroPipeline(object):
             charset='utf8'
         )
 
-        if connector:
-            print("success")
+
 
         cursor = connector.cursor()
         cursor.execute('USE JDcomments')
