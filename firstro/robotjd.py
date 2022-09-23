@@ -43,7 +43,7 @@ class RobotjdSpider(scrapy.Spider):
     def parse(self, response):
         json_str = response.text
         logger.info(json_str)
-        logger.info(json_str)
+
         # 这里是为了让网页里的文件能被解析，前面有20个无意义字符和{}
         data = json.loads(json_str[20:-2])
 
@@ -63,17 +63,5 @@ class RobotjdSpider(scrapy.Spider):
                 logger.info("当前第{}条数据".format(self.comments))
 
                 yield item
-
-
-
-
-
-
-
-
-
-
-
-
 
 
